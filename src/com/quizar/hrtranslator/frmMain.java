@@ -48,7 +48,7 @@ public class frmMain {
     }
 
     public static void main(String args[]){
-        JFrame frame = new JFrame("frmMain");
+        JFrame frame = new JFrame("HeroLab to Roll20 Translator");
         frame.setContentPane(new frmMain().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
