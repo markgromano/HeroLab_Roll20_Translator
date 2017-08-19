@@ -14,17 +14,21 @@ public class frmMain {
         btnOpenXML.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "HeroLab Export File", "xml");
-                chooser.setFileFilter(filter);
-                int returnVal = chooser.showOpenDialog(mainPanel);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    System.out.println("You chose to open this file: " +
-                            chooser.getSelectedFile().getAbsolutePath());
-                }
+                chooseXMLFile();
             }
         });
+    }
+
+    private void chooseXMLFile() {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "HeroLab Export File", "xml");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(mainPanel);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println("You chose to open this file: " +
+                    chooser.getSelectedFile().getAbsolutePath());
+        }
     }
 
     public static void main(String args[]){
