@@ -1,7 +1,11 @@
 package com.quizar.hrtranslator;
 
+import com.quizar.hrtranslator.herolab.Character;
+import com.quizar.hrtranslator.herolab.XMLDocument;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +13,9 @@ public class frmMain {
     private JList listCharacters;
     private JPanel mainPanel;
     private JButton btnOpenXML;
+
+    private String xmlFilePath = "";
+    private XMLDocument herolabOutput;
 
     public frmMain() {
         btnOpenXML.addActionListener(new ActionListener() {
@@ -26,8 +33,17 @@ public class frmMain {
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(mainPanel);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " +
-                    chooser.getSelectedFile().getAbsolutePath());
+            xmlFilePath = chooser.getSelectedFile().getAbsolutePath();
+            herolabOutput = new XMLReader(xmlFilePath).read();
+            System.out.println("XML read!");
+            fillCharacters();
+        }
+    }
+
+    private void fillCharacters() {
+        if(herolabOutput != null){
+            Object names[] = herolabOutput.getPublicElement().getCharacter().stream().map(Character::getName).toArray();
+            listCharacters.setListData(names);
         }
     }
 
