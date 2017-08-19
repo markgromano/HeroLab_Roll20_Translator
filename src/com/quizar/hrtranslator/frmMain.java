@@ -7,10 +7,6 @@ import com.quizar.hrtranslator.herolab.XMLDocument;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.List;
 
@@ -21,6 +17,7 @@ public class frmMain {
     private JList listRolls;
     private JTextArea textRollOutput;
     private int selectedCharacterIndex = -1;
+    private int selectedRollIndex = -1;
 
     private String xmlFilePath = "";
     private XMLDocument herolabOutput;
@@ -28,12 +25,32 @@ public class frmMain {
     public frmMain() {
         btnOpenXML.addActionListener(e -> chooseXMLFile());
         listCharacters.addListSelectionListener(this::characterSelect);
+        listRolls.addListSelectionListener(this::rollSelect);
     }
 
     private void characterSelect(ListSelectionEvent event) {
         if(!event.getValueIsAdjusting()){
             selectedCharacterIndex = listCharacters.getSelectedIndex();
             fillRolls();
+        }
+    }
+
+    private void rollSelect(ListSelectionEvent event) {
+        if(!event.getValueIsAdjusting()){
+            selectedRollIndex = listRolls.getSelectedIndex();
+            generateRoll();
+        }
+    }
+
+    private void generateRoll() {
+        if(herolabOutput != null){
+            Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
+            List<Weapon> weapons = selectedCharacter.getMelee().getWeapon();
+            if(weapons != null && selectedRollIndex <= weapons.size()) {
+                Weapon selectedWeapon = weapons.get(selectedRollIndex);
+                String rollOutput = OutputGenerator.getWeaponRoll(selectedCharacter, selectedWeapon);
+                textRollOutput.setText(rollOutput);
+            }
         }
     }
 
