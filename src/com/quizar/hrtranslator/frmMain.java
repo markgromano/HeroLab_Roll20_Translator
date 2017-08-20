@@ -7,6 +7,11 @@ import com.quizar.hrtranslator.herolab.XMLDocument;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -16,6 +21,7 @@ public class frmMain {
     private JButton btnOpenXML;
     private JList listRolls;
     private JTextArea textRollOutput;
+    private JButton copyTextButton;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -26,6 +32,7 @@ public class frmMain {
         btnOpenXML.addActionListener(e -> chooseXMLFile());
         listCharacters.addListSelectionListener(this::characterSelect);
         listRolls.addListSelectionListener(this::rollSelect);
+        copyTextButton.addActionListener(e -> copyToClipboard());
     }
 
     private void characterSelect(ListSelectionEvent event) {
@@ -65,6 +72,13 @@ public class frmMain {
                 listRolls.setListData(new Object[]{});
             }
         }
+    }
+
+    private void copyToClipboard() {
+        StringSelection stringSelection = new StringSelection(textRollOutput.getText());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+        System.out.println("Output copied to clipboard.");
     }
 
     private void chooseXMLFile() {
