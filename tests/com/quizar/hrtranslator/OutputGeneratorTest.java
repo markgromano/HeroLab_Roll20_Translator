@@ -20,7 +20,7 @@ public class OutputGeneratorTest {
         weapon.setAttack("+8/+3");
 
         String actual = OutputGenerator.getWeaponRoll(character, weapon);
-        String expected = "&{template:default} {{name=Iynas Vumarin: +1 dagger}} {{Crit=19-20/×2}} {{attack 1=[[1d20+8]] (dam: [[1d4]])}} {{attack 2=[[1d20+3]] (dam: [[1d4]])}}";
+        String expected = "&{template:default} {{name=Iynas Vumarin: +1 dagger (Crit: 19-20/×2)}} {{#1=+1 dagger [[1d20+8]] (dam: [[1d4]])}} {{#2=+1 dagger [[1d20+3]] (dam: [[1d4]])}}";
 
         assertEquals(expected, actual);
     }
@@ -37,7 +37,7 @@ public class OutputGeneratorTest {
         weapon.setAttack("+8");
 
         String actual = OutputGenerator.getWeaponRoll(character, weapon);
-        String expected = "&{template:default} {{name=Iynas Vumarin: +1 dagger}} {{Crit=19-20/×2}} {{attack=[[1d20+8]] (dam: [[1d4]])}}";
+        String expected = "&{template:default} {{name=Iynas Vumarin: +1 dagger (Crit: 19-20/×2)}} {{#1=+1 dagger [[1d20+8]] (dam: [[1d4]])}}";
 
         assertEquals(expected, actual);
     }
