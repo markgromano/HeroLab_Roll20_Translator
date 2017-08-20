@@ -23,6 +23,8 @@ public class RollGenerator {
     }
 
     private static void addWeapons(List<String> rolls, List<Weapon> weapons) {
-        rolls.addAll(weapons.stream().map(Weapon::getName).collect(Collectors.toList()));
+        if(weapons != null){
+            rolls.addAll(weapons.stream().map(Weapon::getName).collect(Collectors.toList()));
+        }
     }
 }
