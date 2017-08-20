@@ -33,7 +33,9 @@
                 <preferred-size width="150" height="50"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <lineWrap value="true"/>
+            </properties>
           </component>
           <vspacer id="73f95">
             <constraints>
