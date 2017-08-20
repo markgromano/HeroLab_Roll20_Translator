@@ -62,16 +62,8 @@ public class frmMain {
     }
 
     private void fillRolls() {
-        if(herolabOutput != null){
-            List<Weapon> weapons = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex)
-                    .getMelee().getWeapon();
-            if(weapons != null) {
-                Object weaponRolls[] = weapons.stream().map(Weapon::getName).toArray();
-                listRolls.setListData(weaponRolls);
-            }else{
-                listRolls.setListData(new Object[]{});
-            }
-        }
+        Object[] rolls = RollGenerator.getRolls(herolabOutput, selectedCharacterIndex);
+        listRolls.setListData(rolls);
     }
 
     private void copyToClipboard() {
