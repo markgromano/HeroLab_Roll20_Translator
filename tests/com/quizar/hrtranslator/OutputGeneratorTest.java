@@ -31,7 +31,7 @@ public class OutputGeneratorTest {
         int attackNumber = 2;
 
         String actual = OutputGenerator.getRoll(weapon, attackNumber);
-        assertEquals("{{#2=+1 dagger [[1d20+3]] (dam: [[1d4+1]])}} ", actual);
+        assertEquals("{{#anum#=+1 dagger (+3) [[1d20+3]] (damage: [[1d4+1]])}} ", actual);
     }
 
     @Test

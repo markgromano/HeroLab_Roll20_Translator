@@ -14,8 +14,8 @@ public class OutputGenerator {
     public static String getRoll(Weapon weapon, int attackNumber){
         String[] attacks = weapon.getAttack().split("/");
         if(attackNumber > attacks.length){ return null; }
-        return String.format("{{#%d=%s [[1d20%s]] (dam: [[%s]])}} ",
-                attackNumber, weapon.getName(), attacks[attackNumber-1], weapon.getDamage());
+        return String.format("{{#anum#=%s (%s) [[1d20%s]] (damage: [[%s]])}} ",
+                weapon.getName(), attacks[attackNumber-1], attacks[attackNumber-1], weapon.getDamage());
     }
 
     public static String getOutputBlock(Character character, List selectedRolls){
@@ -33,6 +33,7 @@ public class OutputGenerator {
         for(int attackNumber = 1; attackNumber <= selectedRolls.size(); attackNumber++){
             RollEntry rollEntry = (RollEntry) selectedRolls.get(attackNumber-1);
             String rollText = rollEntry.getRoll();
+            rollText = rollText.replace("#anum#", "#" + attackNumber);
             output.append(rollText);
         }
 
