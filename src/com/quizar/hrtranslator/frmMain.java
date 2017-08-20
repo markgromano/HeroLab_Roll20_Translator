@@ -52,8 +52,8 @@ public class frmMain {
     private void generateRoll() {
         if(herolabOutput != null && listRolls.getSelectedValue() != null){
             Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
-            RollEntry selectedRoll = (RollEntry)listRolls.getSelectedValue();
-            String rollOutput = selectedRoll.getTitle() + selectedRoll.getRoll();
+            List selectedRolls = listRolls.getSelectedValuesList();
+            String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls);
             textRollOutput.setText(rollOutput);
         }
     }
