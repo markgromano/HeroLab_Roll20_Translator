@@ -46,7 +46,7 @@ public class frmMain {
         if(herolabOutput != null){
             Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
             List<Weapon> weapons = selectedCharacter.getMelee().getWeapon();
-            if(weapons != null && selectedRollIndex <= weapons.size()) {
+            if(weapons != null && selectedRollIndex <= weapons.size() && selectedRollIndex >= 0) {
                 Weapon selectedWeapon = weapons.get(selectedRollIndex);
                 String rollOutput = OutputGenerator.getWeaponRoll(selectedCharacter, selectedWeapon);
                 textRollOutput.setText(rollOutput);
