@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class Character {
     private String name;
     private Melee melee;
+    private Ranged ranged;
 
     public String getName() {
         return name;
@@ -23,5 +24,14 @@ public class Character {
     @XmlElement
     public void setMelee(Melee melee) {
         this.melee = melee;
+    }
+
+    public Ranged getRanged() {
+        return ranged;
+    }
+
+    @XmlElement
+    public void setRanged(Ranged ranged) {
+        this.ranged = ranged;
     }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="HeroLab Roll20 Translator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/HeroLab_Roll20_Translator_jar</output-path>
+    <root id="archive" name="HeroLab Roll20 Translator.jar">
+      <element id="module-output" name="HeroLab Roll20 Translator" />
+    </root>
+  </artifact>
+</component>
