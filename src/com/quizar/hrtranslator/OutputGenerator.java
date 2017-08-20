@@ -4,22 +4,31 @@ import com.quizar.hrtranslator.herolab.Character;
 import com.quizar.hrtranslator.herolab.Weapon;
 
 public class OutputGenerator {
+    public static String getTitle(Weapon weapon){
+        return String.format("%s (Crit: %s)", weapon.getName(), weapon.getCrit());
+    }
+
+    public static String getRoll(Weapon weapon, int attackNumber){
+        String[] attacks = weapon.getAttack().split("/");
+        if(attackNumber >= attacks.length){ return null; }
+        return String.format("{{#%d=%s [[1d20%s]] (dam: [[%s]])}} ",
+                attackNumber, weapon.getName(), attacks[attackNumber-1], weapon.getDamage());
+    }
+
     public static String getWeaponRoll(Character character, Weapon weapon) {
         StringBuilder output = new StringBuilder();
         output.append("&{template:default} ");
-        output.append(String.format("{{name=%s: %s (Crit: %s)}} ", character.getName(), weapon.getName(), weapon.getCrit()));
+        String title = getTitle(weapon);
+        output.append(String.format("{{name=%s: %s}} ", character.getName(), title));
 
-        String[] attacks = weapon.getAttack().split("/");
-
-        for(int i = 1; i <= attacks.length; i++){
-            appendAttack(attacks[i-1], i, output, weapon);
+        int attackNumber = 1;
+        String rollText = getRoll(weapon, attackNumber);
+        while(rollText != null){
+            output.append(rollText);
+            attackNumber++;
+            rollText = getRoll(weapon, attackNumber);
         }
 
         return output.toString().trim();
-    }
-
-    private static void appendAttack(String attack, int attackNumber, StringBuilder output, Weapon weapon) {
-        output.append(String.format("{{#%d=%s [[1d20%s]] (dam: [[%s]])}} ",
-                attackNumber, weapon.getName(), attack, weapon.getDamage()));
     }
 }

@@ -35,9 +35,11 @@ public class RollGenerator {
 
     private static void addWeapons(List<RollEntry> rolls, Weapon weapon){
         String[] attacks = weapon.getAttack().split("/");
-        for(int i = 0; i < attacks.length; i++){
-            String label = String.format("%s - Attack %d (%s)", weapon.getName(), i+1, attacks[i]);
-            RollEntry rollEntry = new RollEntry(label, weapon);
+        for(int attackNumber = 1; attackNumber <= attacks.length; attackNumber++){
+            String label = String.format("%s - Attack %d (%s)", weapon.getName(), attackNumber, attacks[attackNumber-1]);
+            String title = OutputGenerator.getTitle(weapon);
+            String roll = OutputGenerator.getRoll(weapon, attackNumber);
+            RollEntry rollEntry = new RollEntry(label, title, roll);
             rolls.add(rollEntry);
         }
     }
