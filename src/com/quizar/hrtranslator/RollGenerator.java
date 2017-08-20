@@ -15,8 +15,12 @@ public class RollGenerator {
         if(herolabOutput != null){
             Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
 
-            addWeapons(rolls, selectedCharacter.getMelee().getWeapon());
-            addWeapons(rolls, selectedCharacter.getRanged().getWeapon());
+            if(selectedCharacter.getMelee() != null) {
+                addWeapons(rolls, selectedCharacter.getMelee().getWeapon());
+            }
+            if(selectedCharacter.getRanged() != null) {
+                addWeapons(rolls, selectedCharacter.getRanged().getWeapon());
+            }
         }
 
         return rolls.toArray();
@@ -24,7 +28,16 @@ public class RollGenerator {
 
     private static void addWeapons(List<String> rolls, List<Weapon> weapons) {
         if(weapons != null){
-            rolls.addAll(weapons.stream().map(Weapon::getName).collect(Collectors.toList()));
+            for(Weapon weapon : weapons){
+                addWeapons(rolls, weapon);
+            }
+        }
+    }
+
+    private static void addWeapons(List<String> rolls, Weapon weapon){
+        String[] attacks = weapon.getAttack().split("/");
+        for(int i = 0; i < attacks.length; i++){
+            rolls.add(String.format("%s - Attack %d (%s)", weapon.getName(), i+1, attacks[i]));
         }
     }
 }
