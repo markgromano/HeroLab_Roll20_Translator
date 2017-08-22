@@ -35,6 +35,20 @@ public class OutputGeneratorTest {
     }
 
     @Test
+    public void testGetRoll_with_extra() throws Exception {
+        Weapon weapon = new Weapon();
+        weapon.setName("+2 acid club");
+        weapon.setCrit("19/20 x2");
+        weapon.setAttack("+8/+3");
+        weapon.setDamage("3d6+2 plus 1d6 acid damage");
+
+        int attackNumber = 1;
+
+        String actual = OutputGenerator.getRoll(weapon, attackNumber);
+        assertEquals("{{#anum#=+2 acid club (+8) [[1d20+8]] (damage: [[3d6+2]] plus [[1d6]] acid damage)}} ", actual);
+    }
+
+    @Test
     public void testGetOutput() throws Exception {
         Character character = new Character();
         character.setName("Radio Raheem");
