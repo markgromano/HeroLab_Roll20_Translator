@@ -14,24 +14,38 @@ public class OutputGeneratorTest {
     public void testGetTitle() throws Exception {
         Weapon weapon = new Weapon();
         weapon.setName("+1 dagger");
-        weapon.setCrit("19/20 x2");
+        weapon.setCrit("19-20 x2");
 
         String actual = OutputGenerator.getTitle(weapon);
-        assertEquals("+1 dagger (Crit: 19/20 x2)", actual);
+        assertEquals("+1 dagger (Crit: 19-20 x2)", actual);
     }
 
     @Test
     public void testGetRoll() throws Exception {
         Weapon weapon = new Weapon();
         weapon.setName("+1 dagger");
-        weapon.setCrit("19/20 x2");
+        weapon.setCrit("19-20 x2");
         weapon.setAttack("+8/+3");
         weapon.setDamage("1d4+1");
 
         int attackNumber = 2;
 
         String actual = OutputGenerator.getRoll(weapon, attackNumber);
-        assertEquals("{{#anum#=+1 dagger (+3) [[1d20+3]] (damage: [[1d4+1]])}} ", actual);
+        assertEquals("{{#anum#=+1 dagger (+3) [[1d20cs>19+3]] (damage: [[1d4+1]])}} ", actual);
+    }
+
+    @Test
+    public void testGetRoll_ExpandedCritRange() throws Exception {
+        Weapon weapon = new Weapon();
+        weapon.setName("+1 nodachi");
+        weapon.setCrit("15-20 x2");
+        weapon.setAttack("+5");
+        weapon.setDamage("1d10+1");
+
+        int attackNumber = 1;
+
+        String actual = OutputGenerator.getRoll(weapon, attackNumber);
+        assertEquals("{{#anum#=+1 nodachi (+5) [[1d20cs>15+5]] (damage: [[1d10+1]])}} ", actual);
     }
 
     @Test

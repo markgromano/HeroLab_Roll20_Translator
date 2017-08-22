@@ -17,9 +17,18 @@ public class OutputGenerator {
     public static String getRoll(Weapon weapon, int attackNumber){
         String[] attacks = weapon.getAttack().split("/");
         if(attackNumber > attacks.length){ return null; }
+        String attackOutput = getAttackOutput(attacks[attackNumber-1], weapon.getCrit());
         String damageOutput = getDamageOutput(weapon.getDamage());
         return String.format("{{#anum#=%s (%s) [[1d20%s]] (damage: %s)}} ",
-                weapon.getName(), attacks[attackNumber-1], attacks[attackNumber-1], damageOutput);
+                weapon.getName(), attacks[attackNumber-1], attackOutput, damageOutput);
+    }
+
+    private static String getAttackOutput(String attack, String crit) {
+        if(crit != null && crit.contains("-")){
+            return "cs>" + crit.substring(0, crit.indexOf("-")) + attack;
+        }else{
+            return attack;
+        }
     }
 
     private static String getDamageOutput(String damage) {
