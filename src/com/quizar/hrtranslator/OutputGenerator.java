@@ -1,6 +1,7 @@
 package com.quizar.hrtranslator;
 
 import com.quizar.hrtranslator.herolab.Character;
+import com.quizar.hrtranslator.herolab.Initiative;
 import com.quizar.hrtranslator.herolab.Save;
 import com.quizar.hrtranslator.herolab.Weapon;
 
@@ -19,6 +20,10 @@ public class OutputGenerator {
         return String.format("%s (%s)", save.getName(), save.getSave());
     }
 
+    public static String getTitle(Initiative initiative) {
+        return String.format("Initiative (%s)", initiative.getTotal());
+    }
+
     public static String getRoll(Weapon weapon, int attackNumber){
         String[] attacks = weapon.getAttack().split("/");
         if(attackNumber > attacks.length){ return null; }
@@ -30,6 +35,10 @@ public class OutputGenerator {
 
     public static String getRoll(Save save){
         return String.format("{{%s=[[1d20%s]]}} ", save.getAbbr(), save.getSave());
+    }
+
+    public static String getRoll(Initiative initiative){
+        return String.format("{{Initiative=[[1d20%s&{tracker}]]}} ", initiative.getTotal());
     }
 
     private static String getAttackOutput(String attack, String crit) {

@@ -22,7 +22,13 @@ public class RollGenerator {
 
             if(selectedCharacter.getSaves() != null && selectedCharacter.getSaves().getSave() != null
                 && selectedCharacter.getSaves().getSave().size() > 0){
+                rolls.add(RollEntry.SPACER);
                 addSaves(rolls, selectedCharacter.getSaves());
+            }
+
+            if(selectedCharacter.getInitiative() != null){
+                rolls.add(RollEntry.SPACER);
+                addInitiative(rolls, selectedCharacter.getInitiative());
             }
         }
 
@@ -43,6 +49,14 @@ public class RollGenerator {
                 addWeapons(rolls, weapon);
             }
         }
+    }
+
+    private static void addInitiative(List<RollEntry> rolls, Initiative initiative) {
+        String label = OutputGenerator.getTitle(initiative);
+        String title = OutputGenerator.getTitle(initiative);
+        String roll = OutputGenerator.getRoll(initiative);
+        RollEntry rollEntry = new RollEntry(label, title, roll);
+        rolls.add(rollEntry);
     }
 
     private static void addSaves(List<RollEntry> rolls, Save save) {

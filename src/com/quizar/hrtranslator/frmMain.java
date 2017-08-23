@@ -53,6 +53,11 @@ public class frmMain {
         if(herolabOutput != null && listRolls.getSelectedValue() != null){
             Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
             List selectedRolls = listRolls.getSelectedValuesList();
+
+            if(selectedRolls.contains(RollEntry.SPACER)){
+                return;
+            }
+
             String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls);
             textRollOutput.setText(rollOutput);
         }
