@@ -5,6 +5,7 @@ import com.quizar.hrtranslator.herolab.Character;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RollGenerator {
     public static Object[] getRolls(XMLDocument herolabOutput, int selectedCharacterIndex) {
@@ -30,9 +31,33 @@ public class RollGenerator {
                 rolls.add(RollEntry.SPACER);
                 addInitiative(rolls, selectedCharacter.getInitiative());
             }
+
+            if(selectedCharacter.getSkills() != null && selectedCharacter.getSkills().getSkill() != null
+                    && selectedCharacter.getSkills().getSkill().size() > 0){
+                rolls.add(RollEntry.SPACER);
+                addSkills(rolls, selectedCharacter.getSkills());
+            }
         }
 
         return rolls.toArray();
+    }
+
+    private static void addSkills(List<RollEntry> rolls, Skills skills) {
+        if(skills != null && skills.getSkill() != null){
+            addSaves(rolls, skills.getSkill().stream()
+            .filter(s -> s.getName().equalsIgnoreCase("Perception"))
+            .collect(Collectors.toList()));
+        }
+    }
+
+    private static void addSaves(List<RollEntry> rolls, List<Skill> usefulSkills) {
+        for(Skill skill : usefulSkills){
+            String label = OutputGenerator.getTitle(skill);
+            String title = OutputGenerator.getTitle(skill);
+            String roll = OutputGenerator.getRoll(skill);
+            RollEntry rollEntry = new RollEntry(label, title, roll);
+            rolls.add(rollEntry);
+        }
     }
 
     private static void addSaves(List<RollEntry> rolls, Saves saves) {
