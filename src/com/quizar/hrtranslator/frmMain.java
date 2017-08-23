@@ -1,7 +1,6 @@
 package com.quizar.hrtranslator;
 
 import com.quizar.hrtranslator.herolab.Character;
-import com.quizar.hrtranslator.herolab.Weapon;
 import com.quizar.hrtranslator.herolab.XMLDocument;
 
 import javax.swing.*;
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -22,6 +20,7 @@ public class frmMain {
     private JList listRolls;
     private JTextArea textRollOutput;
     private JButton copyTextButton;
+    private JCheckBox checkBoxGMRoll;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -33,6 +32,11 @@ public class frmMain {
         listCharacters.addListSelectionListener(this::characterSelect);
         listRolls.addListSelectionListener(this::rollSelect);
         copyTextButton.addActionListener(e -> copyToClipboard());
+        checkBoxGMRoll.addActionListener(this::checkPrivateChanged);
+    }
+
+    private void checkPrivateChanged(ActionEvent actionEvent) {
+        generateRoll();
     }
 
     private void characterSelect(ListSelectionEvent event) {
@@ -59,6 +63,11 @@ public class frmMain {
             }
 
             String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls);
+
+            if(checkBoxGMRoll.isSelected()){
+                rollOutput = "/w gm " + rollOutput;
+            }
+
             textRollOutput.setText(rollOutput);
         }
     }
