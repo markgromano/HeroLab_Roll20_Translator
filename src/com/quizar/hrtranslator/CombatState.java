@@ -2,15 +2,20 @@ package com.quizar.hrtranslator;
 
 public class CombatState {
     private final boolean charging;
+    private final boolean flanking;
 
-    public CombatState(boolean charging) {
+    public CombatState(boolean charging, boolean flanking) {
         this.charging = charging;
+        this.flanking = flanking;
     }
 
     public String getBonus(){
         int bonus = 0;
 
         if(charging){
+            bonus += 2;
+        }
+        if(flanking){
             bonus += 2;
         }
 
@@ -24,10 +29,15 @@ public class CombatState {
     }
 
     public String getLabelAddon() {
+        StringBuilder labelAddon = new StringBuilder();
+
         if(charging){
-            return " *charging*";
-        }else{
-            return "";
+            labelAddon.append(" *charging*");
         }
+        if(flanking){
+            labelAddon.append(" *flanking*");
+        }
+
+        return labelAddon.toString();
     }
 }

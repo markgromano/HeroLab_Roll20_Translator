@@ -22,6 +22,7 @@ public class frmMain {
     private JButton copyTextButton;
     private JCheckBox checkBoxGMRoll;
     private JCheckBox checkCharge;
+    private JCheckBox checkFlanking;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -35,6 +36,7 @@ public class frmMain {
         copyTextButton.addActionListener(e -> copyToClipboard());
         checkBoxGMRoll.addActionListener(e -> generateRoll());
         checkCharge.addActionListener(e -> generateRoll());
+        checkFlanking.addActionListener(e -> generateRoll());
     }
     private void characterSelect(ListSelectionEvent event) {
         if(!event.getValueIsAdjusting()){
@@ -59,7 +61,7 @@ public class frmMain {
                 return;
             }
 
-            CombatState combatState = new CombatState(checkCharge.isSelected());
+            CombatState combatState = new CombatState(checkCharge.isSelected(), checkFlanking.isSelected());
 
             String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls, combatState);
 
