@@ -1,8 +1,7 @@
 package com.quizar.hrtranslator;
 
+import com.quizar.hrtranslator.herolab.*;
 import com.quizar.hrtranslator.herolab.Character;
-import com.quizar.hrtranslator.herolab.Weapon;
-import com.quizar.hrtranslator.herolab.XMLDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +19,22 @@ public class RollGenerator {
             if(selectedCharacter.getRanged() != null) {
                 addWeapons(rolls, selectedCharacter.getRanged().getWeapon());
             }
+
+            if(selectedCharacter.getSaves() != null && selectedCharacter.getSaves().getSave() != null
+                && selectedCharacter.getSaves().getSave().size() > 0){
+                addSaves(rolls, selectedCharacter.getSaves());
+            }
         }
 
         return rolls.toArray();
+    }
+
+    private static void addSaves(List<RollEntry> rolls, Saves saves) {
+        if(saves != null && saves.getSave() != null){
+            for(Save save : saves.getSave()){
+                addSaves(rolls, save);
+            }
+        }
     }
 
     private static void addWeapons(List<RollEntry> rolls, List<Weapon> weapons) {
@@ -31,6 +43,14 @@ public class RollGenerator {
                 addWeapons(rolls, weapon);
             }
         }
+    }
+
+    private static void addSaves(List<RollEntry> rolls, Save save) {
+        String label = OutputGenerator.getTitle(save);
+        String title = OutputGenerator.getTitle(save);
+        String roll = OutputGenerator.getRoll(save);
+        RollEntry rollEntry = new RollEntry(label, title, roll);
+        rolls.add(rollEntry);
     }
 
     private static void addWeapons(List<RollEntry> rolls, Weapon weapon){

@@ -1,6 +1,7 @@
 package com.quizar.hrtranslator;
 
 import com.quizar.hrtranslator.herolab.Character;
+import com.quizar.hrtranslator.herolab.Save;
 import com.quizar.hrtranslator.herolab.Weapon;
 
 import java.util.List;
@@ -14,6 +15,10 @@ public class OutputGenerator {
         return String.format("%s (Crit: %s)", weapon.getName(), weapon.getCrit());
     }
 
+    public static String getTitle(Save save){
+        return String.format("%s (%s)", save.getName(), save.getSave());
+    }
+
     public static String getRoll(Weapon weapon, int attackNumber){
         String[] attacks = weapon.getAttack().split("/");
         if(attackNumber > attacks.length){ return null; }
@@ -21,6 +26,10 @@ public class OutputGenerator {
         String damageOutput = getDamageOutput(weapon.getDamage());
         return String.format("{{#anum#=%s (%s) [[1d20%s]] (damage: %s)}} ",
                 weapon.getName(), attacks[attackNumber-1], attackOutput, damageOutput);
+    }
+
+    public static String getRoll(Save save){
+        return String.format("{{%s=[[1d20%s]]}} ", save.getAbbr(), save.getSave());
     }
 
     private static String getAttackOutput(String attack, String crit) {
