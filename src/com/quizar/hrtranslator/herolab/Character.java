@@ -9,6 +9,7 @@ public class Character {
     private Melee melee;
     private Ranged ranged;
     private Saves saves;
+    private Initiative initiative;
 
     public String getName() {
         return name;
@@ -44,5 +45,14 @@ public class Character {
     @XmlElement
     public void setSaves(Saves saves) {
         this.saves = saves;
+    }
+
+    public Initiative getInitiative() {
+        return initiative;
+    }
+
+    @XmlElement
+    public void setInitiative(Initiative initiative) {
+        this.initiative = initiative;
     }
 }
