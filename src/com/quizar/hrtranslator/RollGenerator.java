@@ -11,7 +11,10 @@ public class RollGenerator {
     public static Object[] getRolls(XMLDocument herolabOutput, int selectedCharacterIndex) {
         List<RollEntry> rolls = new ArrayList<>();
 
-        if(herolabOutput != null){
+        if(herolabOutput != null && herolabOutput.getPublicElement() != null &&
+                herolabOutput.getPublicElement().getCharacter() != null &&
+                herolabOutput.getPublicElement().getCharacter().size() > selectedCharacterIndex &&
+                selectedCharacterIndex > -1){
             Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
 
             if(selectedCharacter.getMelee() != null) {

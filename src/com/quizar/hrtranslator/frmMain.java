@@ -23,6 +23,7 @@ public class frmMain {
     private JCheckBox checkCharge;
     private JCheckBox checkFlanking;
     private JCheckBox checkHighGround;
+    private JButton buttonReload;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -31,6 +32,7 @@ public class frmMain {
 
     public frmMain() {
         btnOpenXML.addActionListener(e -> chooseXMLFile());
+        buttonReload.addActionListener(e -> fillCharacters());
         listCharacters.addListSelectionListener(this::characterSelect);
         listRolls.addListSelectionListener(this::rollSelect);
         copyTextButton.addActionListener(e -> copyToClipboard());
@@ -94,13 +96,14 @@ public class frmMain {
         int returnVal = chooser.showOpenDialog(mainPanel);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             xmlFilePath = chooser.getSelectedFile().getAbsolutePath();
-            herolabOutput = new XMLReader(xmlFilePath).read();
-            System.out.println("XML read!");
+            buttonReload.setEnabled(true);
             fillCharacters();
         }
     }
 
     private void fillCharacters() {
+        herolabOutput = new XMLReader(xmlFilePath).read();
+        System.out.println("XML read!");
         if(herolabOutput != null){
             Object names[] = herolabOutput.getPublicElement().getCharacter().stream().map(Character::getName).toArray();
             listCharacters.setListData(names);
