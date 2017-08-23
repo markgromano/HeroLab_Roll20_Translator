@@ -54,7 +54,7 @@ public class RollGenerator {
         for(Skill skill : usefulSkills){
             String label = OutputGenerator.getTitle(skill);
             String title = OutputGenerator.getTitle(skill);
-            String roll = OutputGenerator.getRoll(skill);
+            Roll roll = OutputGenerator.getRoll(skill);
             RollEntry rollEntry = new RollEntry(label, title, roll);
             rolls.add(rollEntry);
         }
@@ -79,7 +79,7 @@ public class RollGenerator {
     private static void addInitiative(List<RollEntry> rolls, Initiative initiative) {
         String label = OutputGenerator.getTitle(initiative);
         String title = OutputGenerator.getTitle(initiative);
-        String roll = OutputGenerator.getRoll(initiative);
+        Roll roll = OutputGenerator.getRoll(initiative);
         RollEntry rollEntry = new RollEntry(label, title, roll);
         rolls.add(rollEntry);
     }
@@ -87,7 +87,7 @@ public class RollGenerator {
     private static void addSaves(List<RollEntry> rolls, Save save) {
         String label = OutputGenerator.getTitle(save);
         String title = OutputGenerator.getTitle(save);
-        String roll = OutputGenerator.getRoll(save);
+        Roll roll = OutputGenerator.getRoll(save);
         RollEntry rollEntry = new RollEntry(label, title, roll);
         rolls.add(rollEntry);
     }
@@ -97,7 +97,7 @@ public class RollGenerator {
         for(int attackNumber = 1; attackNumber <= attacks.length; attackNumber++){
             String label = String.format("%s - Attack %d (%s)", weapon.getName(), attackNumber, attacks[attackNumber-1]);
             String title = OutputGenerator.getTitle(weapon);
-            String roll = OutputGenerator.getRoll(weapon, attackNumber);
+            Roll roll = OutputGenerator.getRoll(weapon, attackNumber);
             RollEntry rollEntry = new RollEntry(label, title, roll);
             rolls.add(rollEntry);
         }

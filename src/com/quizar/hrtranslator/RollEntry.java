@@ -3,9 +3,10 @@ package com.quizar.hrtranslator;
 public class RollEntry {
     public static final RollEntry SPACER = new RollEntry(null, null, null);
 
-    private final String label, title, roll;
+    private final String label, title;
+    private final Roll roll;
 
-    public RollEntry(String label, String title, String roll) {
+    public RollEntry(String label, String title, Roll roll) {
         this.roll = roll;
         this.title = title;
         this.label = label;
@@ -24,7 +25,8 @@ public class RollEntry {
         return title;
     }
 
-    public String getRoll() {
+    public Roll getRoll() {
+        //rollText = rollText.replace("#anum#", "#" + attackNumber);
         return roll;
     }
 }

@@ -21,6 +21,7 @@ public class frmMain {
     private JTextArea textRollOutput;
     private JButton copyTextButton;
     private JCheckBox checkBoxGMRoll;
+    private JCheckBox checkCharge;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -32,13 +33,9 @@ public class frmMain {
         listCharacters.addListSelectionListener(this::characterSelect);
         listRolls.addListSelectionListener(this::rollSelect);
         copyTextButton.addActionListener(e -> copyToClipboard());
-        checkBoxGMRoll.addActionListener(this::checkPrivateChanged);
+        checkBoxGMRoll.addActionListener(e -> generateRoll());
+        checkCharge.addActionListener(e -> generateRoll());
     }
-
-    private void checkPrivateChanged(ActionEvent actionEvent) {
-        generateRoll();
-    }
-
     private void characterSelect(ListSelectionEvent event) {
         if(!event.getValueIsAdjusting()){
             selectedCharacterIndex = listCharacters.getSelectedIndex();
@@ -62,7 +59,9 @@ public class frmMain {
                 return;
             }
 
-            String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls);
+            CombatState combatState = new CombatState(checkCharge.isSelected());
+
+            String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls, combatState);
 
             if(checkBoxGMRoll.isSelected()){
                 rollOutput = "/w gm " + rollOutput;

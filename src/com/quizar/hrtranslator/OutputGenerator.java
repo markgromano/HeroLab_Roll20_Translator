@@ -4,12 +4,9 @@ import com.quizar.hrtranslator.herolab.*;
 import com.quizar.hrtranslator.herolab.Character;
 
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class OutputGenerator {
-    static final private Pattern DIE_STRING_PATTERN = Pattern.compile(".*[0-9]d[0-9].*");
-
     public static String getTitle(Weapon weapon){
         return String.format("%s (Crit: %s)", weapon.getName(), weapon.getCrit());
     }
@@ -26,54 +23,36 @@ public class OutputGenerator {
         return String.format("%s (+%s)", skill.getName(), skill.getValue());
     }
 
-    public static String getRoll(Weapon weapon, int attackNumber){
-        String[] attacks = weapon.getAttack().split("/");
-        if(attackNumber > attacks.length){ return null; }
-        String attackOutput = getAttackOutput(attacks[attackNumber-1], weapon.getCrit());
-        String damageOutput = getDamageOutput(weapon.getDamage());
-        return String.format("{{#anum#=%s (%s) [[1d20%s]] (damage: %s)}} ",
-                weapon.getName(), attacks[attackNumber-1], attackOutput, damageOutput);
+    public static Roll getRoll(Weapon weapon, int attackNumber){
+        return new Roll(weapon, attackNumber);
     }
 
-    public static String getRoll(Save save){
-        return String.format("{{%s=[[1d20%s]]}} ", save.getAbbr(), save.getSave());
+    public static Roll getRoll(Save save){
+        int bonus = getBonus(save.getSave());
+        return new Roll(save.getAbbr(), bonus);
     }
 
-    public static String getRoll(Initiative initiative){
-        return String.format("{{Initiative=[[1d20%s&{tracker}]]}} ", initiative.getTotal());
+    public static Roll getRoll(Initiative initiative){
+        int bonus = getBonus(initiative.getTotal());
+        return new Roll("Initiative", bonus, "&{tracker}");
     }
 
-    public static String getRoll(Skill skill){
-        return String.format("{{%s=[[1d20+%d]]}} ", skill.getName().replace(" ", "_"), skill.getValue());
-    }
-
-    private static String getAttackOutput(String attack, String crit) {
-        if(crit != null && crit.contains("-")){
-            return "cs>" + crit.substring(0, crit.indexOf("-")) + attack;
-        }else{
-            return attack;
+    private static int getBonus(String stringBonus) {
+        int bonus = 0;
+        try {
+            bonus = Integer.parseInt(stringBonus);
+        }catch(NumberFormatException nfe){
+            System.out.println("NumberFormatException parsing bonus: " + stringBonus);
+            nfe.printStackTrace(System.out);
         }
+        return bonus;
     }
 
-    private static String getDamageOutput(String damage) {
-        if(damage == null || damage.length() == 0){
-            return "";
-        }
-
-        StringBuilder damageOutput = new StringBuilder();
-        String[] dice = damage.split(" ");
-        for(String die : dice){
-            if(DIE_STRING_PATTERN.matcher(die).matches()){
-                damageOutput.append(String.format("[[%s]]", die));
-            }else{
-                damageOutput.append(die);
-            }
-            damageOutput.append(" ");
-        }
-        return damageOutput.toString().trim();
+    public static Roll getRoll(Skill skill){
+        return new Roll(skill.getName(), skill.getValue());
     }
 
-    public static String getOutputBlock(Character character, List selectedRolls){
+    public static String getOutputBlock(Character character, List selectedRolls, CombatState combatState){
         StringBuilder output = new StringBuilder();
         output.append("&{template:default} ");
 
@@ -87,9 +66,8 @@ public class OutputGenerator {
 
         for(int attackNumber = 1; attackNumber <= selectedRolls.size(); attackNumber++){
             RollEntry rollEntry = (RollEntry) selectedRolls.get(attackNumber-1);
-            String rollText = rollEntry.getRoll();
-            rollText = rollText.replace("#anum#", "#" + attackNumber);
-            output.append(rollText);
+            Roll roll = rollEntry.getRoll();
+            output.append(roll.toString(attackNumber, combatState));
         }
 
         return output.toString().trim();
