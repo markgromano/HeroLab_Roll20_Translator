@@ -10,6 +10,7 @@ public class Character {
     private Ranged ranged;
     private Saves saves;
     private Initiative initiative;
+    private Skills skills;
 
     public String getName() {
         return name;
@@ -54,5 +55,14 @@ public class Character {
     @XmlElement
     public void setInitiative(Initiative initiative) {
         this.initiative = initiative;
+    }
+
+    public Skills getSkills() {
+        return skills;
+    }
+
+    @XmlElement
+    public void setSkills(Skills skills) {
+        this.skills = skills;
     }
 }
