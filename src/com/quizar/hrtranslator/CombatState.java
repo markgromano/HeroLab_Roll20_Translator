@@ -1,12 +1,12 @@
 package com.quizar.hrtranslator;
 
 public class CombatState {
-    private final boolean charging;
-    private final boolean flanking;
+    private final boolean charging, flanking, highGround;
 
-    public CombatState(boolean charging, boolean flanking) {
+    public CombatState(boolean charging, boolean flanking, boolean highGround) {
         this.charging = charging;
         this.flanking = flanking;
+        this.highGround = highGround;
     }
 
     public String getBonus(){
@@ -17,6 +17,9 @@ public class CombatState {
         }
         if(flanking){
             bonus += 2;
+        }
+        if(highGround){
+            bonus += 1;
         }
 
         if(bonus > 0) {
@@ -36,6 +39,9 @@ public class CombatState {
         }
         if(flanking){
             labelAddon.append(" *flanking*");
+        }
+        if(highGround){
+            labelAddon.append(" *high ground*");
         }
 
         return labelAddon.toString();

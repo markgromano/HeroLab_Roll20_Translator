@@ -9,7 +9,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class frmMain {
     private JCheckBox checkBoxGMRoll;
     private JCheckBox checkCharge;
     private JCheckBox checkFlanking;
+    private JCheckBox checkHighGround;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -37,6 +37,7 @@ public class frmMain {
         checkBoxGMRoll.addActionListener(e -> generateRoll());
         checkCharge.addActionListener(e -> generateRoll());
         checkFlanking.addActionListener(e -> generateRoll());
+        checkHighGround.addActionListener(e -> generateRoll());
     }
     private void characterSelect(ListSelectionEvent event) {
         if(!event.getValueIsAdjusting()){
@@ -61,7 +62,7 @@ public class frmMain {
                 return;
             }
 
-            CombatState combatState = new CombatState(checkCharge.isSelected(), checkFlanking.isSelected());
+            CombatState combatState = new CombatState(checkCharge.isSelected(), checkFlanking.isSelected(), checkHighGround.isSelected());
 
             String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls, combatState);
 
