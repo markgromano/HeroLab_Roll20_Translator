@@ -7,6 +7,7 @@ public class Weapon {
     private String damage;
     private String crit;
     private String attack;
+    private String equipped;
 
     public String getName() {
         return name;
@@ -42,5 +43,14 @@ public class Weapon {
     @XmlAttribute
     public void setAttack(String attack) {
         this.attack = attack;
+    }
+
+    public String getEquipped() {
+        return equipped;
+    }
+
+    @XmlAttribute
+    public void setEquipped(String equipped) {
+        this.equipped = equipped;
     }
 }

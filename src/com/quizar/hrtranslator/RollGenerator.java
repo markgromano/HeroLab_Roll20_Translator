@@ -73,9 +73,9 @@ public class RollGenerator {
 
     private static void addWeapons(List<RollEntry> rolls, List<Weapon> weapons) {
         if(weapons != null){
-            for(Weapon weapon : weapons){
-                addWeapons(rolls, weapon);
-            }
+            weapons.stream()
+                    .filter(weapon -> weapon != null && weapon.getEquipped() != null)
+                    .forEach(weapon -> addWeapons(rolls, weapon));
         }
     }
 
