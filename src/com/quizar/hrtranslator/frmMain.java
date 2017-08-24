@@ -24,6 +24,7 @@ public class frmMain {
     private JCheckBox checkFlanking;
     private JCheckBox checkHighGround;
     private JButton buttonReload;
+    private JCheckBox checkBane;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -40,6 +41,7 @@ public class frmMain {
         checkCharge.addActionListener(e -> generateRoll());
         checkFlanking.addActionListener(e -> generateRoll());
         checkHighGround.addActionListener(e -> generateRoll());
+        checkBane.addActionListener(e -> generateRoll());
     }
     private void characterSelect(ListSelectionEvent event) {
         if(!event.getValueIsAdjusting()){
@@ -64,7 +66,8 @@ public class frmMain {
                 return;
             }
 
-            CombatState combatState = new CombatState(checkCharge.isSelected(), checkFlanking.isSelected(), checkHighGround.isSelected());
+            CombatState combatState = new CombatState(checkCharge.isSelected(), checkFlanking.isSelected(),
+                    checkHighGround.isSelected(), checkBane.isSelected());
 
             String rollOutput = OutputGenerator.getOutputBlock(selectedCharacter, selectedRolls, combatState);
 

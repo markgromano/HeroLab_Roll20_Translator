@@ -1,12 +1,13 @@
 package com.quizar.hrtranslator;
 
 public class CombatState {
-    private final boolean charging, flanking, highGround;
+    private final boolean charging, flanking, highGround, bane;
 
-    public CombatState(boolean charging, boolean flanking, boolean highGround) {
+    public CombatState(boolean charging, boolean flanking, boolean highGround, boolean bane) {
         this.charging = charging;
         this.flanking = flanking;
         this.highGround = highGround;
+        this.bane = bane;
     }
 
     public String getBonus(){
@@ -20,6 +21,9 @@ public class CombatState {
         }
         if(highGround){
             bonus += 1;
+        }
+        if(bane){
+            bonus += 2;
         }
 
         if(bonus > 0) {
@@ -42,6 +46,9 @@ public class CombatState {
         }
         if(highGround){
             labelAddon.append(" *high ground*");
+        }
+        if(bane){
+            labelAddon.append(" *bane*");
         }
 
         return labelAddon.toString();
