@@ -25,6 +25,7 @@ public class frmMain {
     private JCheckBox checkHighGround;
     private JButton buttonReload;
     private JCheckBox checkBane;
+    private JCheckBox checkShowEquipped;
     private int selectedCharacterIndex = -1;
     private int selectedRollIndex = -1;
 
@@ -42,6 +43,7 @@ public class frmMain {
         checkFlanking.addActionListener(e -> generateRoll());
         checkHighGround.addActionListener(e -> generateRoll());
         checkBane.addActionListener(e -> generateRoll());
+        checkShowEquipped.addActionListener(e -> fillRolls());
     }
     private void characterSelect(ListSelectionEvent event) {
         if(!event.getValueIsAdjusting()){
@@ -80,7 +82,7 @@ public class frmMain {
     }
 
     private void fillRolls() {
-        Object[] rolls = RollGenerator.getRolls(herolabOutput, selectedCharacterIndex);
+        Object[] rolls = RollGenerator.getRolls(herolabOutput, selectedCharacterIndex, checkShowEquipped.isSelected());
         listRolls.setListData(rolls);
     }
 

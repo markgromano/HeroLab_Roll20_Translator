@@ -24,7 +24,7 @@ public class RollGeneratorTest {
         herolabOutput.getPublicElement().getCharacter().get(0).getMelee().getWeapon().add(weapon);
 
         int selectedCharacterIndex = 0;
-        Object[] results = RollGenerator.getRolls(herolabOutput, selectedCharacterIndex);
+        Object[] results = RollGenerator.getRolls(herolabOutput, selectedCharacterIndex, false);
 
         assertNotNull(results);
         assertEquals(2, results.length);

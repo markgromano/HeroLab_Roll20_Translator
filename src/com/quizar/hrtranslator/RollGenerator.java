@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RollGenerator {
-    public static Object[] getRolls(XMLDocument herolabOutput, int selectedCharacterIndex) {
+    public static Object[] getRolls(XMLDocument herolabOutput, int selectedCharacterIndex, boolean showEquippedOnly) {
         List<RollEntry> rolls = new ArrayList<>();
 
         if(herolabOutput != null && herolabOutput.getPublicElement() != null &&
@@ -18,10 +18,10 @@ public class RollGenerator {
             Character selectedCharacter = herolabOutput.getPublicElement().getCharacter().get(selectedCharacterIndex);
 
             if(selectedCharacter.getMelee() != null) {
-                addWeapons(rolls, selectedCharacter.getMelee().getWeapon());
+                addWeapons(rolls, selectedCharacter.getMelee().getWeapon(), showEquippedOnly);
             }
             if(selectedCharacter.getRanged() != null) {
-                addWeapons(rolls, selectedCharacter.getRanged().getWeapon());
+                addWeapons(rolls, selectedCharacter.getRanged().getWeapon(), showEquippedOnly);
             }
 
             if(selectedCharacter.getSaves() != null && selectedCharacter.getSaves().getSave() != null
@@ -71,10 +71,10 @@ public class RollGenerator {
         }
     }
 
-    private static void addWeapons(List<RollEntry> rolls, List<Weapon> weapons) {
+    private static void addWeapons(List<RollEntry> rolls, List<Weapon> weapons, boolean showEquippedOnly) {
         if(weapons != null){
             weapons.stream()
-                    .filter(weapon -> weapon != null && weapon.getEquipped() != null)
+                    .filter(weapon -> weapon != null && (weapon.getEquipped() != null || !showEquippedOnly))
                     .forEach(weapon -> addWeapons(rolls, weapon));
         }
     }
